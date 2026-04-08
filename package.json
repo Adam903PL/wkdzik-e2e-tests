@@ -1,0 +1,20 @@
+{
+  "name": "sdlc",
+  "version": "1.0.0",
+  "description": "Playwright E2E tests for wkdzik.pl",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test tests/example.spec.ts",
+    "test:headed": "npx playwright test tests/example.spec.ts --headed",
+    "test:chromium": "npx playwright test tests/example.spec.ts --project=chromium",
+    "test:report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.2"
+  }
+}
