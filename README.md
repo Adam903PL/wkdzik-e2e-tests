@@ -1,18 +1,18 @@
 # WKDZIK E2E Tests
 
-Zestaw testow end-to-end napisanych w Playwright dla [wkdzik.pl](https://wkdzik.pl/).
+End-to-end test suite built with Playwright for [wkdzik.pl](https://wkdzik.pl/).
 
-Repo zawiera automatyczne scenariusze dla najwazniejszych flow sklepu:
-- ladowanie strony glownej
-- logowanie uzytkownika
-- dodawanie produktu do koszyka
-- przejscie przez checkout
-- nawigacja po glownej strukturze sklepu
-- sortowanie, filtrowanie i wyszukiwanie
-- walidacje formularzy
-- operacje w koszyku
+This repository contains automated tests for the most important store flows:
+- homepage loading
+- user login
+- adding products to the basket
+- checkout navigation and form flow
+- main navigation links
+- sorting, filtering, and search
+- form validation
+- basket interactions
 
-Testy sa oparte o scenariusze z pliku [Test.md](./Test.md), ale zostaly dopasowane do aktualnego UI i realnego zachowania sklepu.
+The suite is based on the scenarios defined in [Test.md](./Test.md), but the implementation has been updated to match the current UI and live behavior of the store.
 
 ## Stack
 
@@ -20,108 +20,108 @@ Testy sa oparte o scenariusze z pliku [Test.md](./Test.md), ale zostaly dopasowa
 - Playwright
 - TypeScript
 
-## Struktura
+## Project Structure
 
 ```text
-tests/example.spec.ts     glowne scenariusze E2E
-playwright.config.ts      konfiguracja runnera i przegladarek
-Test.md                   zrodlo scenariuszy testowych
-.env                      lokalne dane logowania do testow
-playwright-report/        raport HTML po wykonaniu testow
-test-results/             artefakty, trace i bledy z runow
+tests/example.spec.ts     main E2E scenarios
+playwright.config.ts      Playwright configuration
+Test.md                   source test scenarios
+.env                      local login credentials for tests
+playwright-report/        HTML report generated after test runs
+test-results/             Playwright artifacts, traces, and failure output
 ```
 
-## Co sprawdzaja testy
+## What The Suite Covers
 
-Suite obejmuje 25 scenariuszy uruchamianych na:
+The suite contains 25 scenarios executed across:
 - Chromium
 - Firefox
 - WebKit
 
-Najwazniejsze zalozenia:
-- testy nie koncza sie na samej zmianie URL, tylko sprawdzaja realny wynik akcji
-- asercje sa wzmocnione pod aktualny layout strony
-- checkout jest testowany bez skladania prawdziwego zamowienia
-- dane logowania sa pobierane z `.env`
-- jesli scenariusz wymaga tylko zalogowanej sesji, test moze skorzystac z bezpiecznego fallbacku na konto jednorazowe
+Key principles used in this project:
+- tests do not stop at URL changes and verify real outcomes
+- assertions are strengthened against the current UI
+- checkout is tested without placing a real order
+- login credentials are loaded from `.env`
+- flows that only require an authenticated session can safely fall back to a disposable account if needed
 
-## Wymagania
+## Requirements
 
-- Node.js 20+ lub nowszy
-- zainstalowane zaleznosci z `package-lock.json`
-- Playwright browsers zainstalowane lokalnie
+- Node.js 20 or newer
+- dependencies installed from `package-lock.json`
+- local Playwright browsers installed
 
-## Instalacja
+## Installation
 
 ```bash
 npm install
 npx playwright install
 ```
 
-## Konfiguracja `.env`
+## `.env` Configuration
 
-Utworz lokalny plik `.env` w katalogu repo:
+Create a local `.env` file in the project root:
 
 ```env
-WKDZIK_LOGIN_EMAIL=twoj_email
-WKDZIK_LOGIN_PASSWORD=twoje_haslo
+WKDZIK_LOGIN_EMAIL=your_email
+WKDZIK_LOGIN_PASSWORD=your_password
 ```
 
-Plik `.env` jest ignorowany przez git i nie powinien trafic do repozytorium.
+The `.env` file is ignored by git and should never be committed.
 
-## Uruchamianie testow
+## Running Tests
 
-Pelna suite:
+Run the full suite:
 
 ```bash
 npm test
 ```
 
-Run z otwieraniem przegladarki:
+Run in headed mode:
 
 ```bash
 npm run test:headed
 ```
 
-Tylko Chromium:
+Run Chromium only:
 
 ```bash
 npm run test:chromium
 ```
 
-Pojedynczy scenariusz po ID:
+Run a single scenario by ID:
 
 ```bash
 npx playwright test tests/example.spec.ts --grep "TC_WKD_005"
 ```
 
-## Raporty
+## Reports
 
-Po wykonaniu testow Playwright generuje raport HTML w katalogu `playwright-report/`.
+After a test run, Playwright generates an HTML report in `playwright-report/`.
 
-Podglad raportu:
+Open the report with:
 
 ```bash
 npm run test:report
 ```
 
-## Bezpieczenstwo checkoutu
+## Checkout Safety
 
-Scenariusz checkoutu klika finalny przycisk zamowienia, ale request POST odpowiedzialny za faktyczne zlozenie zamowienia jest przechwytywany i przerywany. Dzięki temu:
-- test przechodzi przez realny flow
-- waliduje formularz i payload
-- nie tworzy prawdziwego zamowienia w sklepie
+The checkout scenario clicks the final order button, but the POST request responsible for creating the real order is intercepted and aborted. This means the test:
+- goes through the real checkout flow
+- validates the form and outgoing payload
+- does not create a real order in the live store
 
-## Dobre praktyki w tym repo
+## Repository Guidelines
 
-- nie commitujemy `.env`
-- nie commitujemy `playwright-report/` ani `test-results/`
-- przed mocniejszym refactorem najlepiej odpalic calosc lokalnie
-- przy zmianach UI warto najpierw porownac test z aktualnym flow strony, a dopiero potem poprawiac selektory
+- do not commit `.env`
+- do not commit `playwright-report/` or `test-results/`
+- run the full suite locally before larger refactors
+- when the UI changes, compare the current live flow first and then update selectors and assertions
 
-## Aktualny status
+## Current Status
 
-Ostatnia pelna weryfikacja lokalna:
+Last full local verification:
 
 ```text
 75 passed
@@ -129,6 +129,6 @@ Ostatnia pelna weryfikacja lokalna:
 0 failed
 ```
 
-## Autor
+## Author
 
-Projekt przygotowany pod automatyzacje testow E2E dla WKDZIK.
+Prepared as a Playwright E2E automation project for WKDZIK.
